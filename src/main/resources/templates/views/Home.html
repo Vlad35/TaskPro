@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f6f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #e112d0;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin: 0;
+        }
+
+        .menu {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .menu a {
+            display: block;
+            font-size: 18px;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #e5590d;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .menu a:hover {
+            background-color: #e7e10c;
+        }
+    </style>
+</head>
+<body>
+<h1>Главная страница</h1>
+<div class="menu">
+    <a th:href="@{/users}">Список пользователей</a>
+    <a th:href="@{/roles}">Список ролей</a>
+    <a th:href="@{/comments}">Список комментариев</a>
+    <a th:href="@{/tasks}">Список задач</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список задач</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f6f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin: 0;
+        }
+
+        .task {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .task:hover {
+            transform: scale(1.02);
+        }
+
+        .task p {
+            margin: 5px 0;
+        }
+
+        .task p span {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<h1>Список задач</h1>
+<div th:each="task : ${tasks}" class="task">
+    <p><span th:text="${'Название задачи: ' + task.name}"></span></p>
+    <p><span th:text="${'Описание: ' + task.description}"></span></p>
+    <p><span th:text="${'Дата создания: ' + task.createdAt}"></span></p>
+    <p><span th:text="${'Статус: ' + task.status}"></span></p>
+    <p><span th:text="${'Приоритет: ' + task.priority}"></span></p>
+    <p><span th:text="${'Количество комментариев: ' + task.comments.size()}"></span></p>
+    <p><span th:text="${'Автор задачи: ' + (task.user != null ? task.user.name : 'Нет информации')}"></span></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список комментариев</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f6f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: rgba(67, 218, 25, 0.34);
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin: 0;
+        }
+
+        .comment {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .comment:hover {
+            transform: scale(1.02);
+        }
+
+        .comment p {
+            margin: 5px 0;
+        }
+
+        .comment p span {
+            font-weight: bold;
+            color: #bf2ad9;
+        }
+    </style>
+</head>
+<body>
+<h1>Список комментариев</h1>
+<div th:each="comment : ${comments}" class="comment">
+    <p><span th:text="${'Id комментария: ' + comment.id}"></span></p>
+    <p><span th:text="${'Текст комментария: ' + comment.body}"></span></p>
+    <p><span th:text="${'Дата создания: ' + comment.createdAt}"></span></p>
+    <p><span th:text="${'Задача Название: ' + comment.task.name}"></span></p>
+    <p><span th:text="${'Автор комментария: ' + (comment.user != null ? comment.user.name : 'Нет информации')}"></span></p>
+</div>
+</body>
+</html>

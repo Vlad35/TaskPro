@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список пользователей</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f6f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin: 0;
+        }
+
+        .user {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .user:hover {
+            transform: scale(1.02);
+        }
+
+        .user p {
+            margin: 5px 0;
+        }
+
+        .user p span {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+<h1>Список пользователей</h1>
+<div th:each="user : ${users}" class="user">
+    <p><span th:text="${'Имя пользователя: ' + user.name}"></span></p>
+    <p><span th:text="${'Email: ' + user.email}"></span></p>
+    <p><span th:text="${'Количество ролей: ' + user.roles.size()}"></span></p>
+    <p><span th:text="${'Количество задач: ' + user.tasks.size()}"></span></p>
+    <p><span th:text="${'Количество комментариев: ' + user.comments.size()}"></span></p>
+</div>
+</body>
+</html>
