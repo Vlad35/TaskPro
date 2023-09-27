@@ -5,7 +5,7 @@
     <title>Task Creating Page</title>
 </head>
 <body>
-<form th:action="@{/tasks/create}" th:method="POST">
+<form th:action="@{'/' + ${user.id} + '/tasks/create'}" th:method="POST">
     <label for="name">Имя:</label>
     <input type="text" id="name" name="name" required>
 

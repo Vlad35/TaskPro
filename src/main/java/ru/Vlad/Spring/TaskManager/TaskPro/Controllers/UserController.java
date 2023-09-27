@@ -28,13 +28,6 @@ public class UserController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping
-    public String index(Model model) {
-        List<User> userList = userService.getAllUsers();
-        model.addAttribute("users", userList);
-        return "views/Users/User_Index";
-    }
-
     @GetMapping("/{id}")
     public String showUserById(@PathVariable("id") long id,Model model) {
         Optional<User> user = userService.getUserById(id);
@@ -44,6 +37,7 @@ public class UserController {
         }
         return "views/Users/UserNotFound";
     }
+
 
     private User convertToUser(UserDTO userDTO) {
         return modelMapper.map(userDTO,User.class);

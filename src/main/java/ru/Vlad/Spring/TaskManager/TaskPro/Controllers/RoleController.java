@@ -24,13 +24,6 @@ public class RoleController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping
-    public String index(Model model) {
-        List<Role> roleList = roleService.getAllRoles();
-        model.addAttribute("roles", roleList);
-        return "views/Roles/Role_Index";
-    }
-
     @GetMapping("/create")
     public String createRolePage(Model model) {
         Role role = new Role();

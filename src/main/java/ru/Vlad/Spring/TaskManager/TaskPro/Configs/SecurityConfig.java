@@ -45,8 +45,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth-> {
-                         auth.requestMatchers(antMatcher("/roles/**")).hasRole("ADMIN");
-                         auth.requestMatchers(antMatcher("/users/**")).hasRole("ADMIN");
+                         auth.requestMatchers(antMatcher("/admin/**")).hasRole("ADMIN");
                          auth.requestMatchers(antMatcher("/auth/login")).permitAll();
                          auth.requestMatchers(antMatcher("/error")).permitAll();
                          auth.requestMatchers(antMatcher("/auth/registration")).permitAll();

@@ -5,6 +5,9 @@
     <title>Task Show Page</title>
 </head>
 <body>
+    <div th:if="${task.user == null}">
+        <p>gjhkjhlkkhjgvhbj</p>
+    </div>
     <div th:if="${task != null}">
         <h1 th:text="${task.name}">Task Name</h1>
         <p th:text="${task.description}">Task Description</p>

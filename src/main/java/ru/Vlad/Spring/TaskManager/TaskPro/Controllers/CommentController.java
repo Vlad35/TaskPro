@@ -24,13 +24,6 @@ public class CommentController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping
-    public String index(Model model) {
-        List<Comment> commentList = commentService.getAllComments();
-        model.addAttribute("comments", commentList);
-        return "views/Comments/Comment_Index";
-    }
-
     @GetMapping("/create")
     public String newCommentPage(Model model) {
         Comment comment = new Comment();

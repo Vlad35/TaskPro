@@ -36,4 +36,8 @@ public class TaskService {
     public void updateTask(Task task) {
         taskRepository.save(task);
     }
+
+    public List<Task> getTasksByUserId(long id) {
+        return taskRepository.findByUserId(id);
+    }
 }

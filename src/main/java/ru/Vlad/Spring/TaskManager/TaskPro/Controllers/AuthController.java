@@ -8,45 +8,37 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import ru.Vlad.Spring.TaskManager.TaskPro.DTO.UserDTO;
-import ru.Vlad.Spring.TaskManager.TaskPro.Models.Role;
 import ru.Vlad.Spring.TaskManager.TaskPro.Models.User;
-import ru.Vlad.Spring.TaskManager.TaskPro.Services.RoleService;
 import ru.Vlad.Spring.TaskManager.TaskPro.Services.UserService;
 import ru.Vlad.Spring.TaskManager.TaskPro.utils.UserDTOValidator;
 
-import java.util.Optional;
-
 @Controller
-@RequestMapping("/auth")
 public class AuthController {
-    private final RoleService roleService;
+    private final UserDTOValidator userDTOValidator;
     private final UserService userService;
     private final ModelMapper modelMapper;
-    private final UserDTOValidator userValidator;
 
     @Autowired
-    public AuthController(RoleService roleService, UserService userService, ModelMapper modelMapper, UserDTOValidator userValidator) {
-        this.roleService = roleService;
+    public AuthController(UserDTOValidator userDTOValidator, UserService userService, ModelMapper modelMapper) {
+        this.userDTOValidator = userDTOValidator;
         this.userService = userService;
         this.modelMapper = modelMapper;
-        this.userValidator = userValidator;
     }
 
-    @GetMapping("/login")
+    @GetMapping("/auth/login")
     public String loginPage() {
         return "views/Auth/Login";
     }
 
-    @GetMapping("/registration")
+    @GetMapping("/auth/registration")
     public String registrationPage(@ModelAttribute UserDTO userDTO) {
         return "views/Auth/Registration";
     }
 
-    @PostMapping("/registration")
+    @PostMapping("/auth/registration")
     public String postRegistration(@ModelAttribute @Valid UserDTO userDTO, BindingResult bindingResult) {
-        userValidator.validate(userDTO,bindingResult);
+        userDTOValidator.validate(userDTO,bindingResult);
         if(bindingResult.hasErrors()) {
             return "views/Auth/Registration";
         }
@@ -55,11 +47,11 @@ public class AuthController {
         return "redirect:/auth/login";
     }
 
-    @GetMapping("/denied")
+
+    @GetMapping("/auth/denied")
     public String accessDenied() {
         return "views/Auth/Access_Denied";
     }
-
     private User convertToUser(UserDTO userDTO) {
         return modelMapper.map(userDTO,User.class);
     }

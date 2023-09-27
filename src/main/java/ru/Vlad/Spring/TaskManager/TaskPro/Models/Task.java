@@ -40,4 +40,17 @@ public class Task {
     @JoinColumn(name = "user_id",referencedColumnName = "Id")
     private User user;
 
+    @Override
+    public String toString() {
+        return "Task{" +
+                "Id=" + Id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", createdAt=" + createdAt +
+                ", status='" + status + '\'' +
+                ", priority='" + priority + '\'' +
+                ", comments=" + comments +
+                ", user=" + user +
+                '}';
+    }
 }

@@ -5,7 +5,8 @@
     <title>Task Editing</title>
 </head>
 <body>
-<form th:action="@{tasks/edit/{id}(id=${task.getId()})}" th:object="${task}" th:method="POST">
+<form th:action="@{'/' + ${user.id} + '/tasks/edit/' + ${task.id}}" th:object="${task}" th:method="POST">
+
     <input type="hidden" th:field="*{id}" />
     <div>
         <label for="name">Name:</label>
