@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Role</title>
+</head>
+<body>
+    <div th:if="${role != null}">
+        <h1 th:text="${role.name}">Role Name</h1>
+        <p th:text="${role.description}">Description Name</p>
+        <div th:if="${!role.users.isEmpty()}">
+            <div th:each="user : ${role.users}">
+                <p th:text="${user.getName() + ' ' + user.getEmail()}">User Data</p>
+            </div>
+        </div>
+        <div th:if="${role.users.isEmpty()}">
+            <p>No user found</p>
+        </div>
+    </div>
+</body>
+</html>

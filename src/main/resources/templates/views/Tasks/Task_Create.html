@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Creating Page</title>
+</head>
+<body>
+<form th:action="@{/tasks/create}" th:method="POST">
+    <label for="name">Имя:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="description">Описание:</label>
+    <input type="text" id="description" name="description" required>
+
+    <label for="status">Статус:</label>
+    <input type="text" id="status" name="status" required>
+
+    <label for="priority">Приоритет:</label>
+    <input type="text" id="priority" name="priority" required>
+
+    <button type="submit">Создать</button>
+</form>
+</body>
+</html>

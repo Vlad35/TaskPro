@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Single User Data</title>
+</head>
+<body>
+<div th:if="user != null">
+    <div>
+        <h2 th:text="${user.name}">User Name</h2>
+        <hr>
+        <p th:text="${user.email}">User Email</p>
+        <br>
+        <p>User Roles:</p>
+        <div th:if="${!user.roles.isEmpty()}">
+            <ul>
+                <li th:each="role : ${user.roles}" >
+                    <p th:text="${role.name + ' ' + role.description}">
+                        Roles Data
+                    </p>
+                </li>
+            </ul>
+        </div>
+        <div th:if="${user.roles.isEmpty()}">
+            <p>
+                No Roles For User Found
+            </p>
+        </div>
+
+        <br>
+        <p>User Comments:</p>
+            <div th:if="${!user.comments.isEmpty()}">
+                <ul>
+                    <li th:each="comment : ${user.comments}" th:text="${comment.body}">
+                        Comments Data
+                    </li>
+                </ul>
+            </div>
+            <div th:if="${user.comments.isEmpty()}">
+                <p>No Comments Found</p>
+            </div>
+        <br>
+        <p>User Tasks:</p>
+        <div th:if="${!user.tasks.isEmpty()}">
+            <ul>
+                <li th:each="task : ${user.tasks}" th:text="${task.name}"></li>
+            </ul>
+        </div>
+        <div th:if="${user.tasks.isEmpty()}">
+            <p>
+                No Tasks Found
+            </p>
+        </div>
+        <hr>
+    </div>
+</div>
+</body>
+</html>

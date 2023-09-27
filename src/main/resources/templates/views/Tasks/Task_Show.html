@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Show Page</title>
+</head>
+<body>
+    <div th:if="${task != null}">
+        <h1 th:text="${task.name}">Task Name</h1>
+        <p th:text="${task.description}">Task Description</p>
+        <div th:if="${!task.comments.isEmpty()}">
+            <ul th:each="comment : ${task.comments}">
+                <li th:text="${comment.task + ' ' + comment.body + ' ' + comment.user}">Comment Data</li>
+            </ul>
+        </div>
+        <div th:if="${task.comments.isEmpty()}">
+            <p>No Comments Found</p>
+        </div>
+        <p th:text="${task.user}">Task User</p>
+    </div>
+</body>
+</html>

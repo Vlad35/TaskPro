@@ -1,7 +1,9 @@
 package ru.Vlad.Spring.TaskManager.TaskPro.Services;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.Vlad.Spring.TaskManager.TaskPro.DTO.UserDTO;
 import ru.Vlad.Spring.TaskManager.TaskPro.Models.User;
 import ru.Vlad.Spring.TaskManager.TaskPro.Repositories.UserRepository;
 
@@ -21,8 +23,9 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
     }
 
     public Optional<User> getUserByEmail(String email) {
@@ -36,4 +39,11 @@ public class UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+    public void updateUser(User user) {
+        userRepository.save(user);
+    }
+
+
+
 }

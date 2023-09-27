@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Editing</title>
+</head>
+<body>
+<form th:action="@{tasks/edit/{id}(id=${task.getId()})}" th:object="${task}" th:method="POST">
+    <input type="hidden" th:field="*{id}" />
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" th:field="*{name}" />
+    </div>
+    <div>
+        <label for="description">Description:</label>
+        <input type="text" id="description" th:field="*{description}" />
+    </div>
+    <div>
+        <label for="status">Status:</label>
+        <input type="text" id="status" th:field="*{status}" />
+    </div>
+    <div>
+        <label for="priority">Priority:</label>
+        <input type="text" id="priority" th:field="*{priority}" />
+    </div>
+    <div>
+        <input type="submit" value="Save">
+    </div>
+</form>
+</body>
+</html>

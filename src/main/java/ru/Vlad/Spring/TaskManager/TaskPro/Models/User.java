@@ -28,7 +28,7 @@ public class User {
     @Column(name="password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -36,9 +36,9 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private List<Task> tasks;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private List<Comment> comments;
 }
