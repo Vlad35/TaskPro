@@ -35,24 +35,6 @@ public class UserController {
         return "views/Users/User_Index";
     }
 
-    @GetMapping("/create")
-    public String createUserPage(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-
-        return "views/Users/User_Create";
-    }
-
-
-    @PostMapping("/create")
-    public String createUser(@ModelAttribute UserDTO userDTO) {
-        User user = convertToUser(userDTO);
-        Optional<Role> optionalRole = roleService.findByDescription("Пользователь");
-        optionalRole.ifPresent(role -> user.getRoles().add(role));
-        userService.createUser(user);
-        return "redirect:/users";
-    }
-
     @GetMapping("/{id}")
     public String showUserById(@PathVariable("id") long id,Model model) {
         Optional<User> user = userService.getUserById(id);

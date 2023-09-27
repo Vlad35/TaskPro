@@ -1,6 +1,7 @@
 package ru.Vlad.Spring.TaskManager.TaskPro.Models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 

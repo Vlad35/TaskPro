@@ -33,67 +33,23 @@ public class PreStartAnalize implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Role role1 = new Role();
-        role1.setName("ROLE_ADMIN");
-        role1.setDescription("Администратор");
-        roleService.createRole(role1);
-
-        Role role2 = new Role();
-        role2.setName("ROLE_USER");
-        role2.setDescription("Пользователь");
-        roleService.createRole(role2);
-
         User user1 = new User();
-        user1.setName("Пользователь 1");
         user1.setEmail("user1@example.com");
-        user1.setPassword("password1");
-        Set<Role> user1Roles = new HashSet<>();
-        user1Roles.add(role1);
-        user1Roles.add(role2);
-        user1.setRoles(user1Roles);
+        user1.setName("user 1");
+        user1.setPassword("pass");
         userService.createUser(user1);
 
         User user2 = new User();
-        user2.setName("Пользователь 2");
         user2.setEmail("user2@example.com");
-        user2.setPassword("password2");
-        Set<Role> user2Roles = new HashSet<>();
-        user2Roles.add(role2);
-        user2.setRoles(user2Roles);
+        user2.setName("user 2");
+        user2.setPassword("pass");
         userService.createUser(user2);
 
-        Task task1 = new Task();
-        task1.setName("Задача 1");
-        task1.setDescription("Описание задачи 1");
-        task1.setCreatedAt(LocalDateTime.now());
-        task1.setStatus("в процессе");
-        task1.setPriority("высокий");
-        task1.setUser(user1);
-        taskService.createTask(task1);
+        User user3 = new User();
+        user3.setEmail("user3@example.com");
+        user3.setName("user 3");
+        user3.setPassword("pass");
+        userService.createUser(user3);
 
-        Task task2 = new Task();
-        task2.setName("Задача 2");
-        task2.setDescription("Описание задачи 2");
-        task2.setCreatedAt(LocalDateTime.now());
-        task2.setStatus("завершено");
-        task2.setPriority("средний");
-        task2.setUser(user2);
-        taskService.createTask(task2);
-
-        Comment comment1 = new Comment();
-        comment1.setBody("Комментарий 1");
-        comment1.setCreatedAt(LocalDateTime.now());
-        comment1.setUser(user1);
-
-        Comment comment2 = new Comment();
-        comment2.setBody("Комментарий 2");
-        comment2.setCreatedAt(LocalDateTime.now());
-        comment2.setUser(user2);
-
-        comment1.setTask(task1);
-        comment2.setTask(task2);
-
-        commentService.createComment(comment1);
-        commentService.createComment(comment2);
     }
 }
