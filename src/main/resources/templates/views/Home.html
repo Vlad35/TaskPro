@@ -1,54 +1,69 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Главная страница</title>
+    <title>User Data</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f6f6f6;
-            margin: 0;
-            padding: 0;
-        }
-
-        h1 {
-            background-color: #e112d0;
-            color: #fff;
-            padding: 20px 0;
-            text-align: center;
-            margin: 0;
-        }
-
-        .menu {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .menu a {
-            display: block;
-            font-size: 18px;
-            margin: 10px 0;
-            padding: 10px;
-            background-color: #e5590d;
-            color: #fff;
+        /* Стили для ссылок */
+        a {
             text-decoration: none;
+            color: #333; /* Цвет текста по умолчанию */
+            padding: 5px 10px;
+            border: 1px solid #333;
             border-radius: 5px;
-            transition: background-color 0.3s ease-in-out;
+            margin: 5px;
+            display: inline-block;
+            box-shadow: 2px 2px 5px #888; /* Тень */
+            transition: background-color 0.3s, color 0.3s; /* Анимация при наведении */
         }
 
-        .menu a:hover {
-            background-color: #e7e10c;
+        /* Стиль при наведении */
+        a:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        /* Стиль при нажатии */
+        a:active {
+            background-color: #555;
         }
     </style>
 </head>
 <body>
-<h1>Главная страница</h1>
-<div class="menu">
-    <a th:href="@{/users}">Список пользователей</a>
-    <a th:href="@{/roles}">Список ролей</a>
-    <a th:href="@{/comments}">Список комментариев</a>
-    <a th:href="@{/tasks}">Список задач</a>
-    <a th:href="@{/auth/logout}">Log Out</a>
+<div th:if="${user != null}">
+    <div>
+        <h2 th:text="${user.name}">User Name</h2>
+        <hr>
+        <p th:text="${user.email}">User Email</p>
+        <br>
+        <p>User Roles:</p>
+        <div th:if="${!user.roles.isEmpty()}">
+            <ul>
+                <li th:each="role : ${user.roles}" th:text="${role.name + ' ' + role.description}">
+                    Roles Data
+                </li>
+            </ul>
+        </div>
+        <div th:if="${user.roles.isEmpty()}">
+            <p>No Roles For User Found</p>
+        </div>
+        <br>
+
+        <!-- Отображение ссылок в зависимости от роли пользователя -->
+        <div th:if="${isAdmin}">
+            <!-- Ссылки для администратора -->
+            <p><a href="/admin/comments">Admin Comments</a></p>
+            <p><a href="/admin/roles">Admin Roles</a></p>
+            <p><a href="/admin/users">Admin Users</a></p>
+            <p><a href="/admin/tasks">Admin Tasks</a></p>
+        </div>
+        <p><a th:href="@{'/' + ${user.id} + '/tasks'}">User Tasks</a></p>
+        <p><a th:href="@{'/' + ${user.id} + '/comments'}">User Comments</a></p>
+
+
+        <hr>
+        <a th:href="@{/auth/logout}">Logout</a>
+    </div>
 </div>
 </body>
 </html>

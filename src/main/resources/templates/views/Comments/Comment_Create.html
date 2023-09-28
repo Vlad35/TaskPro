@@ -6,7 +6,8 @@
 </head>
 <body>
 <h1>Create Comment</h1>
-<form th:action="@{/comments/create}" th:method="post" th:object="${comment}">
+<form th:action="@{'/' + ${userId} + '/comments'}" th:method="post" th:object="${comment}">
+
     <div>
         <label for="body">Comment:</label>
         <textarea id="body" name="body" th:field="*{body}" required></textarea>

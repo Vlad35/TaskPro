@@ -2,17 +2,22 @@ package ru.Vlad.Spring.TaskManager.TaskPro.Controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.Vlad.Spring.TaskManager.TaskPro.DTO.TaskDTO;
 import ru.Vlad.Spring.TaskManager.TaskPro.Models.Task;
 import ru.Vlad.Spring.TaskManager.TaskPro.Models.User;
+import ru.Vlad.Spring.TaskManager.TaskPro.Security.MyUserDetails;
 import ru.Vlad.Spring.TaskManager.TaskPro.Services.TaskService;
 import ru.Vlad.Spring.TaskManager.TaskPro.Services.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -30,21 +35,35 @@ public class TaskController {
         this.modelMapper = modelMapper;
     }
 
+    private boolean isAccessed(long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
+        User user = myUserDetails.getUser();
+        return user.getId() == id;
+    }
+
     @GetMapping
     public String getTasksForUser(@PathVariable("id") long id,Model model) {
-        List<Task> taskList = taskService.getTasksByUserId(id);
-        model.addAttribute("tasks",taskList);
-        return "views/Tasks/Task_Index";
+        boolean isAccessed = this.isAccessed(id);
+        if(isAccessed) {
+            List<Task> taskList = taskService.getTasksByUserId(id);
+            model.addAttribute("tasks",taskList);
+            return "views/Tasks/Task_Index";
+        }
+        return "views/Auth/Access_Denied";
     }
 
     @GetMapping("/create")
     public String newTaskPage(@PathVariable("id") long id, Model model) {
-        Task task = new Task();
-        Optional<User> user = userService.getUserById(id);
-        user.ifPresent(task::setUser);
-        model.addAttribute("task",task);
-        model.addAttribute("user",user.get());
-        return "views/Tasks/Task_Create";
+        if(isAccessed(id)) {
+            Task task = new Task();
+            Optional<User> user = userService.getUserById(id);
+            user.ifPresent(task::setUser);
+            model.addAttribute("task",task);
+            model.addAttribute("user",user.get());
+            return "views/Tasks/Task_Create";
+        }
+        return "views/Auth/Access_Denied";
     }
 
     @PostMapping("/create")
@@ -52,6 +71,7 @@ public class TaskController {
         Task task = this.convertToTask(taskDTO);
         Optional<User> user = userService.getUserById(id);
         user.ifPresent(task::setUser);
+        user.get().getTasks().add(task);
         task.setCreatedAt(LocalDateTime.now());
         taskService.createTask(task);
         return "redirect:/" + id + "/tasks";
@@ -69,32 +89,32 @@ public class TaskController {
     }
 
     @GetMapping("/edit/{taskId}")
-    public String editTaskPage(@PathVariable("taskId") long id,Model model) {
-        Optional<Task> optionalTask = taskService.getTaskById(id);
+    public String editTaskPage(@PathVariable("id") long id, @PathVariable("taskId") long taskId, Model model) {
+        Optional<Task> optionalTask = taskService.getTaskById(taskId);
         Optional<User> optionalUser = userService.getUserById(id);
-        if(optionalTask.isPresent()  && optionalUser.isPresent() && optionalTask.get().getUser().getName().equals(optionalUser.get().getName())) {
-            model.addAttribute("user",optionalUser.get());
-            model.addAttribute("task",optionalTask.get());
+
+        if(optionalTask.isPresent() && optionalUser.isPresent() && isAccessed(optionalTask.get().getUser().getId()) && Objects.equals(optionalUser.get().getId(), optionalTask.get().getUser().getId())) {
+            model.addAttribute("user", optionalUser.get());
+            model.addAttribute("task", optionalTask.get());
             return "views/Tasks/Task_Edit";
         }
-        return "views/Tasks/TaskNotFound";
+        return "views/Auth/Access_Denied";
     }
 
     @PostMapping("/edit/{taskId}")
-    public String editTask(@PathVariable("id") long id,@PathVariable("taskId") long taskId,@ModelAttribute TaskDTO taskDTO) {
+    public String editTask(@PathVariable("id") long id, @PathVariable("taskId") long taskId, @ModelAttribute TaskDTO taskDTO) {
         Optional<Task> optionalTask = taskService.getTaskById(taskId);
-        if(optionalTask.isPresent()) {
+
+        if (optionalTask.isPresent() && optionalTask.get().getUser().getId() == id) {
             Task task = optionalTask.get();
-            System.out.println(task.toString());
-            modelMapper.map(taskDTO,task);
-            System.out.println(task.toString());
-
+            modelMapper.map(taskDTO, task);
             taskService.updateTask(task);
-
             return "redirect:/" + id + "/tasks";
+        } else {
+            return "views/Auth/Access_Denied";
         }
-        return "views/Tasks/TaskNotFound";
     }
+
 
     private Task convertToTask(TaskDTO taskDTO) {
         return modelMapper.map(taskDTO,Task.class);

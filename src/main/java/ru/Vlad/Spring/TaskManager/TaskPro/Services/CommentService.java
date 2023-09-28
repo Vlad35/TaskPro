@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.Vlad.Spring.TaskManager.TaskPro.Models.Comment;
 import ru.Vlad.Spring.TaskManager.TaskPro.Repositories.CommentRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,5 +35,8 @@ public class CommentService {
     }
     public void updateComment(Comment comment) {
         commentRepository.save(comment);
+    }
+    public List<Comment> getCommentsByUserId(Long id) {
+        return commentRepository.findAllByUserId(id);
     }
 }
